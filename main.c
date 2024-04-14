@@ -1,5 +1,8 @@
 #include <stdio.h>
 
+void generate_matchups(char** countries, int countries_length) {
+}
+
 int main() {
     char* countries[] = {
         "Afghanistan",
@@ -223,6 +226,8 @@ int main() {
         "Zimbabwe"
     };
 
+    int countries_length = sizeof(countries) / sizeof(countries[0]);
+    generate_matchups(countries, countries_length);
+    
     return 0;
 }
-
