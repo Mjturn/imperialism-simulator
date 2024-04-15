@@ -1,6 +1,29 @@
 #include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
 
 void generate_matchups(char** countries, int countries_length) {
+    int paired[countries_length];
+
+    for(int i = 0; i < countries_length; i++) {
+        paired[i] = 0;
+    }
+    
+    srand(time(NULL));
+    
+    for(int i = 0; i < countries_length; i++) {
+        if(paired[i] == 0) {
+            int j;
+            
+            do {
+                j = rand() % countries_length;
+            } while (j == i || paired[j] == 1);
+            
+            printf("%s vs. %s\n", countries[i], countries[j]);
+            paired[i] = 1;
+            paired[j] = 1;
+        }
+    }
 }
 
 int main() {
@@ -226,8 +249,16 @@ int main() {
         "Zimbabwe"
     };
 
-    int countries_length = sizeof(countries) / sizeof(countries[0]);
-    generate_matchups(countries, countries_length);
-    
+    printf("Welcome to Imperialism Simulator!\n");
+    printf("What would you like to do?\n");
+    printf("1. View the matchups\n");
+    int choice;
+    scanf("%d", &choice);
+
+    if(choice == 1) {
+        int countries_length = sizeof(countries) / sizeof(countries[0]);
+        generate_matchups(countries, countries_length);
+    }
+
     return 0;
 }
