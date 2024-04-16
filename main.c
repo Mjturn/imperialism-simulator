@@ -1,8 +1,9 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include <time.h>
 
-void generate_matchups(char** countries, int countries_length) {
+void simulate(char** countries, int countries_length) {
     int paired[countries_length];
 
     for(int i = 0; i < countries_length; i++) {
@@ -18,8 +19,15 @@ void generate_matchups(char** countries, int countries_length) {
             do {
                 j = rand() % countries_length;
             } while (j == i || paired[j] == 1);
-            
-            printf("%s vs. %s\n", countries[i], countries[j]);
+
+            int winner_index = rand() % 2;
+
+            if(winner_index == 0) {
+                printf("%s(W) vs. %s(L)\n", countries[i], countries[j]);
+            } else {
+                printf("%s(L) vs. %s(W)\n", countries[i], countries[j]);
+            }
+
             paired[i] = 1;
             paired[j] = 1;
         }
@@ -250,14 +258,20 @@ int main() {
     };
 
     printf("Welcome to Imperialism Simulator!\n");
-    printf("What would you like to do?\n");
-    printf("1. View the matchups\n");
-    int choice;
-    scanf("%d", &choice);
+    while(1) {
+        printf("What would you like to do? Type \"quit\" to quit.\n");
+        printf("1. Simulate\n");
+        char choice[5];
+        scanf("%s", choice);
 
-    if(choice == 1) {
-        int countries_length = sizeof(countries) / sizeof(countries[0]);
-        generate_matchups(countries, countries_length);
+        if(strcmp(choice, "1") == 0) {
+            int countries_length = sizeof(countries) / sizeof(countries[0]);
+            simulate(countries, countries_length);
+        } else if(strcasecmp(choice, "quit") == 0) {
+            break;
+        } else {
+            printf("Sorry, what you've entered is invalid. Please try again.\n");
+        }
     }
 
     return 0;
